@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fake News Detection</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 500px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            text-align: center;
+            color: white;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 14px;
+        }
+
+        textarea:focus {
+            box-shadow: 0 0 10px #00f7ff;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(45deg, #00f7ff, #00ff88);
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #00ffcc;
+        }
+
+        .box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+        }
+
+        .fake {
+            color: #ff4d4d;
+            font-size: 20px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+
+        .true {
+            color: #00ff99;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>📰 Fake News Detector</h1>
+
+        <form action="/" method="POST">
+            <textarea name="txt" rows="5" placeholder="Enter news text here..."></textarea>
+            <br>
+            <button type="submit">🔍 Analyze</button>
+        </form>
+
+        {% if request.form.get('txt') %}
+        <div class="box">
+            <h3>Entered Text:</h3>
+            <p class="text">{{ request.form['txt'] }}</p>
+        </div>
+        {% endif %}
+
+        {% if result is not none %}
+        <div class="box">
+            <h3>Prediction:</h3>
+
+            {% if result == 0 %}
+                <p class="fake">❌ Fake News</p>
+            {% else %}
+                <p class="true">✅ True News</p>
+            {% endif %}
+
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
